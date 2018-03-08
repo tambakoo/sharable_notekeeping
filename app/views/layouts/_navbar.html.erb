@@ -1,0 +1,29 @@
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Notekeeping</a>
+    </div>
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav">
+            <li><%= link_to "Public Feed"%></a></li>
+            <li><%= link_to "Private Feed"%></a></li>
+            <li><%= link_to "My Pictures"%></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.email%>
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Edit Account", edit_user_registration_path %></li>
+              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete%></li>
+            </ul>
+      <% else %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to "Sign in", new_user_session_path %></li>
+        </ul>
+      <% end %>
+      </li>
+    </ul>
+  </div>
+</nav>
