@@ -1,3 +1,9 @@
 class Tag < ApplicationRecord
-  belongs_to :note
+  has_many :taggings
+  has_many :notes, through: :taggings
+
+  def self.note_count(tag_name)
+    Tag.find_by(name: tag_name.strip).notes.count
+  end
+
 end

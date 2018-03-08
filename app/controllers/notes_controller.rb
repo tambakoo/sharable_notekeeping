@@ -3,22 +3,29 @@ class NotesController < ApplicationController
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   def index
-    @notes = Note.all
+    if params[:tag] 
+      @notes= Note.tagged_with(params[:tag])
+    else
+      @notes = Note.all.order(created_at: :desc)
+    end
+  end
+
+  def show
   end
 
   def new
-    @note = Note.new
+    @note = current_user.notes.new
   end
 
   def edit
   end
 
   def create
-    @note = Note.new(note_params)
+    @note = current_user.notes.new(note_params)
 
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note was successfully created.' }
+        format.html { redirect_to @note }
         format.json { render :show, status: :created, location: @note }
       else
         format.html { render :new }
@@ -30,7 +37,7 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.html { redirect_to @note }
         format.json { render :show, status: :ok, location: @note }
       else
         format.html { render :edit }
@@ -42,7 +49,7 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to notes_url, notice: 'Note destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -53,6 +60,6 @@ class NotesController < ApplicationController
     end
 
     def note_params
-      params.require(:note).permit(:title, :body)
+      params.require(:note).permit(:title, :body, :all_tags)
     end
 end

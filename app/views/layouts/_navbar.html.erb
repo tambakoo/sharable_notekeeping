@@ -6,8 +6,8 @@
     </div>
       <% if user_signed_in? %>
         <ul class="nav navbar-nav">
-            <li><%= link_to "Public Feed"%></a></li>
-            <li><%= link_to "Private Feed"%></a></li>
+            <li><%= link_to "All Notes", notes_path%></a></li>
+            <li><%= link_to "My Notes"%></a></li>
             <li><%= link_to "My Pictures"%></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

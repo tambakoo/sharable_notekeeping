@@ -4,4 +4,5 @@ Rails.application.routes.draw do
 
   root 'application#home'
   resources :notes
+  get 'tags/:tag', to: 'notes#index', as: "tag"
 end
