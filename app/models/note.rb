@@ -33,13 +33,12 @@ class Note < ApplicationRecord
   end
 
   def share_allowed?(user)
-    self.user.eql?(user) || self.accesses.where(shared_to_id: user.id, level: "owner").present? || 
-    self.accesses.where(shared_to_id: user.id, shareable_id: 2, shareable_type: "Access", level: "owner").present?
+    self.user.eql?(user) || Access.find_by(note_id: self.id, shared_to_id: user.id, level: "owner").present?
   end
 
   def edit_allowed?(user)
-    self.user.eql?(user) || self.accesses.where(shared_to_id: user.id, level: "owner").present? || 
-    self.accesses.where(shared_to_id: user.id, level: "write").present?
+    self.user.eql?(user) || Access.find_by(note_id: self.id, shared_to_id: user.id, level: "owner").present? || 
+    Access.find_by(note_id: self.id, shared_to_id: user.id, level: "write").present?
   end
 
 end
