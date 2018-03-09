@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  note: one
+  sharer_id: 1
+  shared_to_id: 1
+  level: 1
+  status: false
+
+two:
+  note: two
+  sharer_id: 1
+  shared_to_id: 1
+  level: 1
+  status: false

@@ -1,0 +1,24 @@
+<center>
+  <div class="actions">
+    <% @access = Access.new %>
+    <%= form_for @access do |f| %>
+      <% note = Note.find(params[:note_id]) %>
+      <%= f.hidden_field :note_id, value: note.id%>
+      <%= f.hidden_field :sharer_id, value: current_user.id %>
+      <% if note.creator?(current_user) %>
+        <%= f.hidden_field :shareable_id, value: note.id %>
+        <%= f.hidden_field :shareable_type, value: note.class %>
+      <% else %>
+        <% acc= Access.where(note_id: note.id, shared_to_id: current_user.id, level: "owner").first %>
+        <%= f.hidden_field :shareable_id, value: acc.id %>
+        <%= f.hidden_field :shareable_type, value: acc.class %>
+      <% end %>
+      <% fresh = User.where.not(id: [current_user.id]+Access.where(note_id: note.id).pluck(:shared_to_id)) %>
+      <div class="form-group">
+        <%= select("access", "shared_to_id", fresh.collect {|p| [ p.email, p.id ] }) %>
+        <%= select("access", "level", Access.levels.keys.each_with_index {|p, i| [ p, i ] }) %>
+        <%= f.submit 'Share' %>
+      </div>
+    <% end %>
+  </div>
+</center>

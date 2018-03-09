@@ -1,18 +1,29 @@
-<p id="notice"><%= notice %></p>
-<center>
-  <h2>Listing all notes</h2>
-    <% @notes.each do |note| %>
-       <div class= "note">
-         <h3><%= note.title%></h3>
-         <% unless note.all_tags.empty? %>
-          <h4><% note.all_tags.split(",").each do |x| %>
-               <%= link_to x, tag_path(x) %><small>(<%= Tag.note_count(x)%>)</small>
-              <% end %>
-          </h4>
-        <% end %>
-         <%= link_to 'Read', note %> | 
-         <%= link_to 'Edit', edit_note_path(note) %> | 
-         <%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %> <br>
-       </div>
-    <% end %>
-</center>
+<% unless @notes.empty? %>
+  <p id="notice"><%= notice %></p>
+  <center>
+    <h2>Listing all notes</h2> 
+    <%=link_to "click", new_note_path %> to create new note
+    <hr> 
+      <% @notes.each do |note| %>
+         <div class= "note">
+           <h3><%= note.title%></h3>
+           <% unless note.all_tags.empty? %>
+            <h4><% note.all_tags.split(",").each do |x| %>
+                 <%= x %><small>(<%= Tag.note_count(x)%>)</small>
+                <% end %>
+            </h4>
+          <% end %>
+           <%= link_to 'Access Control |', note_accesses_path(note) if note.share_allowed?(current_user)%> 
+           <%= link_to 'Read', note %>
+           <%= link_to '| Edit |', edit_note_path(note) if note.edit_allowed?(current_user)%>
+           <%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } if note.edit_allowed?(current_user) %>  <br>
+         </div>
+         <hr>
+      <% end %>
+  </center>
+<% else %>
+<br> <br> <br> <br> <br> <br> <br>
+  <center>
+    <h2>Whoops! Nothing here yet.</h2>
+  </center>
+<% end %>

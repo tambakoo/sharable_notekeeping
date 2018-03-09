@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308094336) do
+ActiveRecord::Schema.define(version: 20180309095928) do
+
+  create_table "accesses", force: :cascade do |t|
+    t.integer  "note_id"
+    t.integer  "sharer_id"
+    t.integer  "shared_to_id"
+    t.integer  "level"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "shareable_type"
+    t.integer  "shareable_id"
+    t.index ["note_id"], name: "index_accesses_on_note_id"
+    t.index ["shared_to_id", "note_id"], name: "index_accesses_on_shared_to_id_and_note_id", unique: true
+  end
 
   create_table "notes", force: :cascade do |t|
     t.text     "title"

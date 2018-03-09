@@ -5,4 +5,13 @@ Rails.application.routes.draw do
   root 'application#home'
   resources :notes
   get 'tags/:tag', to: 'notes#index', as: "tag"
+  get '/shared', to: 'notes#shared'
+  resources :notes do
+    resources :accesses
+  end
+
+  resources :accesses do 
+    resources :accesses 
+  end
+
 end

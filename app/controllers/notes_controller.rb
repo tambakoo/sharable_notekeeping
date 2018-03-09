@@ -2,12 +2,21 @@ class NotesController < ApplicationController
 
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
+  # def index
+  #   if params[:tag] 
+  #     @notes= Note.tagged_with(params[:tag])
+  #   else
+  #     @notes = Note.all.order(created_at: :desc)
+  #   end
+  # end
+
   def index
-    if params[:tag] 
-      @notes= Note.tagged_with(params[:tag])
-    else
-      @notes = Note.all.order(created_at: :desc)
-    end
+      @notes = Note.owner(current_user)
+  end
+
+  def shared
+    @notes=Note.shared(current_user)
+    render 'index'
   end
 
   def show

@@ -6,9 +6,8 @@
     </div>
       <% if user_signed_in? %>
         <ul class="nav navbar-nav">
-            <li><%= link_to "All Notes", notes_path%></a></li>
-            <li><%= link_to "My Notes"%></a></li>
-            <li><%= link_to "My Pictures"%></a></li>
+            <li><%= link_to "My Notes", notes_path %></a></li>
+            <li><%= link_to "Notes shared with me", shared_path %></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -27,3 +26,6 @@
     </ul>
   </div>
 </nav>
+
+
+

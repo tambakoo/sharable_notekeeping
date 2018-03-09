@@ -4,13 +4,15 @@
     <br>
     <small>created at <%= @note.created_at.to_date%> by <%= @note.user.email%></small>
   </h3>
+  <h4><% @note.all_tags.split(",").each do |x| %>
+               <%= x %><small>(<%= Tag.note_count(x)%>)</small>
+              <% end %>
+  </h4>
+  <%= link_to 'Access Control |', note_accesses_path(@note) if @note.share_allowed?(current_user)%>
+  <%= link_to 'Edit |', edit_note_path(@note) if @note.edit_allowed?(current_user) %>
+  <%= link_to 'Destroy', @note, method: :delete, data: { confirm: 'Are you sure?' } if @note.edit_allowed?(current_user) %> <br>
 </center> 
 
 <div class="panel panel-default">
   <p><div class="panel-body"><%= @note.body%></p></div>
 </div>
-
-
-
-<%= link_to 'Edit', edit_note_path(@note) %> |
-<%= link_to 'Back', notes_path %>

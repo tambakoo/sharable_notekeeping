@@ -1,0 +1,32 @@
+<center>
+  <% unless @accesses.empty?  %>
+    <h3>Listing users with access to this note.</h3>  <%= render 'accesses/new' %>
+    <br>
+    <br>
+      <table class="table table-striped table-bordered", style="width: auto"; > 
+        <thead>
+          <tr>
+            <th scope="col">Shared to (sink)</th>
+            <th scope="col">Shared by (source)</th>
+            <th scope="col">Access Level</th>
+          </tr>
+          </thead>
+        <tbody>
+          <% @accesses.each do |x| %>
+            <tr>
+              <% user = User.find_by!(id: x.shared_to_id)%>
+              <% creator = Note.find_by!(id: x.note_id).user %>
+              <td><%= user.email%></td>
+              <td><%= User.find_by(id: x.sharer_id).email%></td>
+              <td><%= x.level%></td>
+              <td><%= link_to "revoke",[@note,x], method: :delete, data: {confirm: 'This will also revoke all dependencies'} unless user.eql?(current_user) || user.eql?(creator) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  <% else %>
+  <br><br><br><br><br><br>
+   <h2>No other user has access to this note.</h2>
+  <%= render 'accesses/new' %>
+  <% end %>
+</center>
