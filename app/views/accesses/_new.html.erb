@@ -13,7 +13,7 @@
         <%= f.hidden_field :shareable_id, value: acc.id %>
         <%= f.hidden_field :shareable_type, value: acc.class %>
       <% end %>
-      <% fresh = User.where.not(id: [current_user.id]+Access.where(note_id: note.id).pluck(:shared_to_id)) %>
+      <% fresh = User.where.not(id: [current_user.id]+Access.where(note_id: note.id).pluck(:shared_to_id)+[note.user_id]) %>
       <div class="form-group">
         <%= select("access", "shared_to_id", fresh.collect {|p| [ p.email, p.id ] }) %>
         <%= select("access", "level", Access.levels.keys.each_with_index {|p, i| [ p, i ] }) %>
