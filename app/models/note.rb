@@ -41,4 +41,8 @@ class Note < ApplicationRecord
     Access.find_by(note_id: self.id, shared_to_id: user.id, level: "write").present?
   end
 
+  def read_allowed?(user)
+    self.user.eql?(user) || Access.find_by(note_id: self.id, shared_to_id: user.id).present?
+  end
+
 end

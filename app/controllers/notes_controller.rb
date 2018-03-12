@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
 
   before_action :set_note, only: [:show, :edit, :update, :destroy]
+  before_action :verify_user, only: [:show]
 
   # def index
   #   if params[:tag] 
@@ -70,5 +71,9 @@ class NotesController < ApplicationController
 
     def note_params
       params.require(:note).permit(:title, :body, :all_tags)
+    end
+
+    def verify_user
+      redirect_to notes_path unless @note.read_allowed?(current_user)
     end
 end
